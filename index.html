@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>travel paradise| Explorer the india 
+    </title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a5f7a;
+            --accent: #ff7e5f;
+            --bg-light: #f8f9fa;
+            --text-dark: #2d3436;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; }
+        ul { list-style: none; }
+        a { text-decoration: none; color: inherit; cursor: pointer; }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 8%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 1.5rem; font-weight: 600; letter-spacing: 1px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links li a:hover { color: var(--accent); }
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* Page Handling */
+        .page { display: none; min-height: 100vh; animation: fadeIn 0.6s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Shared Components */
+        .container { padding: 60px 8%; text-align: center; }
+        .section-title { font-size: 2.5rem; margin-bottom: 40px; position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--accent); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 40px; }
+        
+        .btn {
+            background: var(--accent);
+            color: var(--white);
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #e66a4e; transform: translateY(-3px); }
+
+        /* Hero */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1350&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white);
+            text-align: center;
+        }
+
+        /* Card Styles */
+        .card { background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: var(--transition); }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; height: 220px; object-fit: cover; transition: var(--transition); }
+        .card:hover img { transform: scale(1.1); }
+        .card-info { padding: 20px; text-align: left; }
+
+        /* Gallery - Grid with 15 Images */
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            grid-auto-rows: 250px;
+            gap: 15px; 
+        }
+        .gallery-item { position: relative; overflow: hidden; border-radius: 10px; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); cursor: pointer; }
+        .gallery-item:hover img { transform: scale(1.1); filter: brightness(70%); }
+
+        /* Form */
+        form { background: var(--white); padding: 30px; border-radius: 15px; max-width: 600px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; }
+
+        footer { background: var(--primary); color: white; padding: 40px 8%; text-align: center; margin-top: 50px; }
+        .social-icons { margin-top: 20px; font-size: 1.5rem; }
+        .social-icons i { margin: 0 10px; cursor: pointer; transition: 0.3s; }
+        .social-icons i:hover { color: var(--accent); }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links { display: none; flex-direction: column; width: 100%; position: absolute; top: 60px; left: 0; background: var(--primary); padding: 20px; }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="showPage('home')"><i class="fas fa-globe-americas"></i>travel paradise</div>
+        <div class="menu-toggle" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+        <ul class="nav-links">
+            <li><a onclick="showPage('home')">Home</a></li>
+            <li><a onclick="showPage('about')">About</a></li>
+            <li><a onclick="showPage('destinations')">Destinations</a></li>
+            <li><a onclick="showPage('packages')">Packages</a></li>
+            <li><a onclick="showPage('gallery')">Gallery</a></li>
+            <li><a onclick="showPage('services')">Services</a></li>
+          
+            <li><a onclick="showPage('contact')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="page active">
+        <header class="hero">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Expertly curated travel experiences for the modern explorer.</p>
+            <button class="btn" onclick="showPage('destinations')">Explore Destinations</button>
+        </header>
+        <div class="container">
+            <h2 class="section-title">Why Travel With Us?</h2>
+            <div class="grid">
+                <div class="card-info" style="text-align: center;">
+                    <i class="fas fa-shield-alt fa-3x" style="color:var(--accent)"></i>
+                    <h3>Safe Travel</h3>
+                    <p>Your safety is our top priority with 24/7 support.</p>
+                </div>
+                <div class="card-info" style="text-align: center;">
+                    <i class="fas fa-tags fa-3x" style="color:var(--accent)"></i>
+                    <h3>Best Prices</h3>
+                    <p>Guaranteed best rates for hotels and excursions.</p>
+                </div>
+                <div class="card-info" style="text-align: center;">
+                    <i class="fas fa-map-marked-alt fa-3x" style="color:var(--accent)"></i>
+                    <h3>Unique Paths</h3>
+                    <p>We take you off the beaten track to hidden gems.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="about" class="page">
+        <div class="container">
+            <h2 class="section-title">About Our Agency</h2>
+            <p style="max-width: 800px; margin: auto;">We are a creative web design agency providing modern and user-friendly websites.
+Our team focuses on quality, innovation, and customer satisfaction.
+We design websites for business, education, and personal use.
+Our services include web design, development, and maintenance.
+We aim to deliver fast, attractive, and responsive websites.</p>
+            <div class="grid">
+                <div class="card"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=500&q=60"><div class="card-info"><h3>Our Team</h3></h1><p>Dedicated travel consultants at your service.</p><h5><br></h5>sayali more<br>divya nankar<br>bhavana patil<br>chaitali patil</p></div></div>
+                <div class="card"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=500&q=60"><div class="card-info"><h3>Our Vision</h3><p>To lead the way in sustainable and ethical tourism.</p></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="destinations" class="page">
+        <div class="container">
+            <h2 class="section-title">8 Must-Visit Places</h2>
+            <div class="grid">
+                <div class="card"><img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?w=500"><div class="card-info"><h3>Taj Mahal,India</h3><p>The iconic ivory-white marble mausoleum.</p></div></div>
+               
+                <div class="card"><img src="images/rishikesh.jpg"><div class="card-info"><h3>Uttarakhand india</h3><p>Not just a trip, but a thrilling ride ⚡️
+                                                                                                                Rafting through the rapids of Rishikesh 🌊</p></div></div>
+                <div class="card"><img src="images/meghalaya.jpg"><div class="card-info"><h3>Megalay,india </h3><p>Wandering through the clouds in Meghalaya ☁️🏞️", "Living root bridges & cloud kisses 🌉☁️", and "Drenched in the charm of Meghalaya waterfalls 💦</p></div></div>
+                <div class="card"><img src="images/swarajya.jpg"><div class="card-info"><h3>maharastra,india</h3><p>Walking the path of Chhatrapati Shivaji Maharaj. #SahyadriLegends
+Maharashtra's forts are not just stones; they are the soul of the Sahyadri</p></div></div>
+                
+                <div class="card"><img src="images/RAJSTHAN.JPG"><div class="card-info"><h3>Jaisalmair</h3><p>Golden skies, golden stories, and a city that never disappoints ✨🏜️
+Lost in the golden lanes of the Sonar Quila</p></div></div>
+                <div class="card"><img src="images/kedarnath.jpg"><div class="card-info"><h3>madhya pradesh,india</h3><p>"Heaven isn't a place, it's Kedarnath".
+"Finding magic in the mountains of Kedarnath".</p></div></div>
+                <div class="card"><img src="images/kerala.jpg"><div class="card-info"><h3>kerala,india</h3><p>"Where the backwaters whisper peace and the palms sway."
+"Kerala: A place where your dreams set sail." </p></div></div>
+                <div class="card"><img src="images/bengal.jpg"><div class="card-info"><h3>bengal,india</h3><p>"Bengali travel diaries: A mix of mishti (sweets) and magic."
+"ধুলোমাখা পথ, আর সাথে একমুঠো নস্টালজিয়া।" (Dusty paths and a handful of nostalgia.)</p></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="packages" class="page">
+        <div class="container">
+            <h2 class="section-title">Travel Packages</h2>
+            <div class="grid">
+                <div class="card" style="padding:30px; border-top: 5px solid var(--accent);">
+                    <h3>Honeymoon Special</h3>
+                    <p class="section-title" style="font-size: 1.5rem; margin: 15px 0;"></b>80,000 Rs.</p>
+                    <p>Luxury stay, candle-light dinner, and private spa.</p>
+                    <button class="btn">Book Now</button>
+                   
+                    <h3>friends group</h3>
+                    <p class="section-title" style="font-size: 1.5rem; margin: 15px 0;">45,000 Rs.</p>
+                    <p>Luxury stay, candle-light dinner, and private spa.</p>
+                    <button class="btn">Book Now</button>
+                    
+                    <h3>solo trip package</h3>
+                    <p class="section-title" style="font-size: 1.5rem; margin: 15px 0;">12,000 Rs.</p>
+                    <p>Luxury stay, candle-light dinner, and private spa.</p>
+                    <button class="btn">Book Now</button>
+
+                    <h3>Family Pack</h3>
+                    <p class="section-title" style="font-size: 1.5rem; margin: 15px 0;">40,000 Rs.</p>
+                    <p>4 People, Theme park tickets, and large suite.</p>
+                    <button class="btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="gallery" class="page">
+        <div class="container">
+            <h2 class="section-title">Captured Moments</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item"><img src="images/img1.jpg"></div>
+                <div class="gallery-item"><img src="images/img2.jpg"></div>
+                <div class="gallery-item"><img src="images/img3.jpg"></div>
+                <div class="gallery-item"><img src="images/img4.jpg"></div>
+                <div class="gallery-item"><img src="images/img5.jpg"></div>
+                <div class="gallery-item"><img src="images/img6.jpg"></div>
+                <div class="gallery-item"><img src="images/img7.jpg"></div>
+                <div class="gallery-item"><img src="images/img8.jpg"></div>
+                <div class="gallery-item"><img src="images/img9.jpg"></div>
+                <div class="gallery-item"><img src="images/img10.jpg"></div>
+                <div class="gallery-item"><img src="images/img11.jpg"></div>
+                <div class="gallery-item"><img src="images/img12.JPG"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="services" class="page">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <div class="grid">
+                <div class="card-info" style="text-align: center;"><i class="fas fa-plane fa-3x"></i><h3>Flight Booking</h3></div>
+                <div class="card-info" style="text-align: center;"><i class="fas fa-hotel fa-3x"></i><h3>Hotel Reservation</h3></div>
+                <div class="card-info" style="text-align: center;"><i class="fas fa-bus fa-3x"></i><h3>Transport</h3></div>
+            </div>
+        </div>
+    </div>
+
+  
+
+    <div id="contact" class="page">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <form onsubmit="event.preventDefault(); alert('We have received your message!')">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea rows="5" placeholder="Tell us about your trip..." required></textarea>
+                <button type="submit" class="btn">Submit Inquiry</button>
+            </form>
+            <div class="social-icons" style="margin-top: 30px;">
+                <p>Follow us for daily travel inspiration</p>
+                <i class="fab fa-facebook"></i> <i class="fab fa-instagram"></i> <i class="fab fa-twitter"></i>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p> &copy; 2026 travel paradise </p>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelector('.nav-links').classList.remove('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
